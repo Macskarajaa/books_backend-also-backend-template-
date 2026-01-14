@@ -106,20 +106,22 @@ app.delete("/books/:id", (request,response)=>{
     })
 })
 
-app.put("/books/:id", (request,response)=>{
-    const {id} =request.params
-    const {title, author, description, cover, rating} = request.body
-        const sql = "UPDATE books SET title = ?, author = ?, description = ?, cover = ?, rating = ? "
-    if(!title || !author || !description || !cover || !rating){
-        return response.status(400).json({error:"minden mező kötelező"})
+app.put("/books/:id",(req,resp)=>{
+    const {id} = req.params
+    const {title,author,description,cover,rating} = req.body
+        if(!title || !author || !description || !cover || !rating){
+        return resp.status(400).json({error:"Minden mező kötelező!"})
     }
-    db.query(sql,values,(error,result)=>{
-        if(error){
-            response.status(500).json({error:"Adatbázis Hiba!!"})
-        }if(result.affectedRows==0){
-            return response.status(404).json({error:"A megadott könyv nem létezik"})
+    const sql = "UPDATE books SET title = ?,author=?,description=?,cover=?,rating=? WHERE id = ?"
+    const values = [title,author,description,cover,rating,id]
+    db.query(sql,values,(err,res)=>{
+        if(err){
+            console.log(err);
+            return resp.status(500).json({error:"Adatbázis hiba!"})
+        }if(res.affectedRows==0){
+            return resp.status(404).json({error:"A megadott könyv nem létezik!"})
         }else{
-            response.status(200).send(response)
+            return resp.status(200).send(res)
         }
     })
 })
