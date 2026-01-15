@@ -37,8 +37,10 @@ app.get("/books", (request,response)=>{
 
 app.get("/books/categ/:categId", (request,response)=>{
     const {categId} = request.params 
-    const sql = "SELECT books.id, books.title, books.author, books.description, books.cover, books.rating, categories.name from books, categories WHERE books.id = categories.id and categories.id=? ORDER by books.title;"
+    const sql = "SELECT books.id, books.title, books.author, books.description, books.cover, books.rating, categories.name from books, categories WHERE books.category_id = categories.id and categories.id=? ORDER by books.title;"
     const values = [categId]
+    console.log(sql);
+    
     db.query(sql,values,(error,result)=>{
         if(error){
             response.status(500).json({error:"Adatbázis Hiba!!"})
