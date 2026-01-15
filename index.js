@@ -24,8 +24,8 @@ app.get("/books/categories", (request,response)=>{
     })
 })
 
-app.get("/books", (request,response)=>{
-    const sql = "SELECT books.id, books.title, books.author, books.description, books.cover, books.rating, categories.name from books, categories WHERE books.id = categories.id;"
+app.get("/books/books", (request,response)=>{
+    const sql = "SELECT books.id, books.title, books.author, books.description, books.cover, books.rating, categories.name from books, categories WHERE books.category_id = categories.id ORDER by books.title"
     db.query(sql,(error,result)=>{
         if(error){
             response.status(500).json({error:"Adatbázis Hiba!!"})
