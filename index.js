@@ -91,8 +91,10 @@ app.post("/books", (request,response)=>{
     })
 })
 app.delete("/books/:id", (request,response)=>{
-    const {id} =request.params
-    const sql = "DELETE books from where id=?"
+
+    const {id} =request.params 
+    console.log(id);
+    const sql = "DELETE from books where id=?"
     const values = [id]
     db.query(sql,values,(error,result)=>{
         if(error){
