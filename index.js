@@ -81,7 +81,7 @@ app.get("/books/author/:author", (request,response)=>{
 app.post("/books", (request,response)=>{
     const {title,author,description,cover,rating,category_id}=request.body
     const sql = "INSERT into books (title,author,description,category_id,cover,rating) values(?,?,?,?,?,?) "
-    const values = [title,author,description,cover,rating,category_id]
+    const values = [title,author,description,category_id,cover,rating]
     db.query(sql,values,(error,result)=>{
         if(error){
             response.status(500).json({error:"Adatbázis Hiba!!"})
@@ -125,7 +125,8 @@ app.put("/books/:id",(req,resp)=>{
         }if(res.affectedRows==0){
             return resp.status(404).json({error:"A megadott könyv nem létezik!"})
         }else{
-            return resp.status(200).send(res)
+            //return resp.status(200).send(res)
+            return resp.status(200).json({id:Number(id),title, author, description,cover,rating})
         }
     })
 })
